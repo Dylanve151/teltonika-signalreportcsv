@@ -37,7 +37,10 @@ with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 			LCIDvalue, pBANDvalue, PLMNvalue, CARRIERvalue, RSSIvalue, RSRPvalue, SINRvalue, RSRQvalue, TYPEvalue, *SERVINGvalues = o.decode('ascii').splitlines()
 			
 			## LCID values
-			LCIDvalue = int(LCIDvalue.strip(), 16)
+			if 'ERROR' in LCIDvalue:
+				LCIDvalue = 0
+			else:
+				LCIDvalue = int(LCIDvalue.strip(), 16)
 			
 			## primary band value
 			pBANDvalue = pBANDvalue.strip()
