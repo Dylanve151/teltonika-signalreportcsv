@@ -10,7 +10,7 @@ TSstart = int(datetime.timestamp(datetime.now()))
 CSVfilename = '/root/'+'signalreport_'+str(TSstart)+'.csv'
 alines=0
 TSvalue=0
-CellStatus='Not registered'
+CellStatus=''
 
 with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 	CSVwriter = csv.writer(CSVfile)
