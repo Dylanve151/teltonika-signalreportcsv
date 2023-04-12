@@ -25,9 +25,10 @@ with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 		o, e = proc.communicate()
 		CellStatus = o.decode('ascii').strip()
 		
+		## TS value
+		TSvalue = int(datetime.timestamp(datetime.now()))
+		
 		if CellStatus != 'Not registered':
-			## TS value
-			TSvalue = int(datetime.timestamp(datetime.now()))
 
 			## gsm values
 			cmd = ['gsmctl', '-CbfoqtK']
