@@ -73,11 +73,18 @@ with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 			cmd = ['gpsctl', '-ixas']
 			proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			o, e = proc.communicate()
-			LAvalue, LOvalue, ATvalue, GPSSTATUSvalue = o.decode('ascii').splitlines()
-			if int(GPSSTATUSvalue) == 0:
-				LAvalue = None
-				LOvalue = None
-				ATvalue = None
+			GPSvalues = o.decode('ascii').splitlines()
+			if len(GPSvalues) > 3:
+				LAvalue, LOvalue, ATvalue, GPSSTATUSvalue = GPSvalues
+				if int(GPSSTATUSvalue) == 0:
+					LAvalue = None
+					LOvalue = None
+					ATvalue = None
+			else:
+					LAvalue = None
+					LOvalue = None
+					ATvalue = None
+					GPSSTATUSvalue = None
 			
 			## bands info
 			cmd = ['gsmctl', '-A', 'AT+QNWINFO']
