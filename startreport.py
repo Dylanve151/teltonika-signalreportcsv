@@ -7,7 +7,7 @@ import csv
 import time
 
 TSstart = int(datetime.timestamp(datetime.now()))
-CSVfilename = 'signalreport_'+str(TSstart)+'.csv'
+CSVfilename = '/root/'+'signalreport_'+str(TSstart)+'.csv'
 alines=0
 TSvalue=0
 CellStatus='Not registered'
@@ -28,7 +28,7 @@ with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 		## TS value
 		TSvalue = int(datetime.timestamp(datetime.now()))
 		
-		if CellStatus != 'Not registered':
+		if CellStatus == 'Registered, home':
 
 			## gsm values
 			cmd = ['gsmctl', '-CbfoqtK']
