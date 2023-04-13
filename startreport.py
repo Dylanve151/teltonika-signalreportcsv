@@ -14,7 +14,7 @@ TSvalue=0
 with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 	CSVwriter = csv.writer(CSVfile)
 	
-	while alines < 2: 
+	while alines < 99: 
 		while TSvalue == int(datetime.timestamp(datetime.now())):
 			time.sleep(0.1)
 		
