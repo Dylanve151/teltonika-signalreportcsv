@@ -10,7 +10,6 @@ TSstart = int(datetime.timestamp(datetime.now()))
 CSVfilename = '/root/'+'signalreport_'+str(TSstart)+'.csv'
 alines=0
 TSvalue=0
-CellStatus=''
 
 with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 	CSVwriter = csv.writer(CSVfile)
@@ -19,22 +18,20 @@ with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 		while TSvalue == int(datetime.timestamp(datetime.now())):
 			time.sleep(0.1)
 		
-		## gsm active
-		cmd = ['gsmctl', '-q']
+		## gsm data
+		CellData = ''
+		cmd = ['gsmctl', '-CbfoqtK']
 		proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		o, e = proc.communicate()
-		CellStatus = o.decode('ascii')
+		CellData = o.decode('ascii').splitlines()
 		
 		## TS value
 		TSvalue = int(datetime.timestamp(datetime.now()))
 		
-		if CellStatus != '':
+		if len(CellData) > 9:
 			
 			## gsm values
-			cmd = ['gsmctl', '-CbfoqtK']
-			proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			o, e = proc.communicate()
-			LCIDvalue, pBANDvalue, PLMNvalue, CARRIERvalue, RSSIvalue, RSRPvalue, SINRvalue, RSRQvalue, TYPEvalue, *SERVINGvalues = o.decode('ascii').splitlines()
+			LCIDvalue, pBANDvalue, PLMNvalue, CARRIERvalue, RSSIvalue, RSRPvalue, SINRvalue, RSRQvalue, TYPEvalue, *SERVINGvalues = CellData
 			
 			## LCID values
 			if 'ERROR' in LCIDvalue:
@@ -70,6 +67,7 @@ with open(CSVfilename, 'w', encoding='UTF8', newline='') as CSVfile:
 			pTDDvalue = pTDDvalue.strip('TDD mode: ').strip()
 			
 			## GPS Values
+			GPSvalues = ''
 			cmd = ['gpsctl', '-ixas']
 			proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			o, e = proc.communicate()
